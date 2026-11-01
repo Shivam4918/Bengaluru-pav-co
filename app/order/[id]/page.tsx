@@ -335,13 +335,22 @@ export default function OrderTrackingPage() {
                   <div className="text-sm font-semibold text-white">
                     {item.quantity}x {item.itemTitle}
                   </div>
-                  {item.selectedModifiersJson && (
-                    <div className="text-[11px] text-slate-400 mt-0.5">
-                      {JSON.parse(item.selectedModifiersJson)
-                        .map((m: any) => m.name)
-                        .join(", ")}
-                    </div>
-                  )}
+                  {(() => {
+                    if (!item.selectedModifiersJson) return null;
+                    try {
+                      const parsed = typeof item.selectedModifiersJson === "string" 
+                        ? JSON.parse(item.selectedModifiersJson) 
+                        : item.selectedModifiersJson;
+                      if (Array.isArray(parsed) && parsed.length > 0) {
+                        return (
+                          <div className="text-[11px] text-slate-400 mt-0.5">
+                            {parsed.map((m: any) => m.name || m.title || "").filter(Boolean).join(", ")}
+                          </div>
+                        );
+                      }
+                    } catch {}
+                    return null;
+                  })()}
                 </div>
                 <div className="text-sm font-bold text-slate-200">
                   ₹{item.totalPrice.toFixed(2)}

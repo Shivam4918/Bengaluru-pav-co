@@ -409,8 +409,8 @@ export default function CustomerAuthModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl relative max-h-[92vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl relative max-h-[92vh] flex flex-col">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 w-7 h-7 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors z-10"
@@ -695,7 +695,7 @@ export default function CustomerAuthModal({
           /* =================================================================== */
           /* GUEST / AUTHENTICATION INTERFACE */
           /* =================================================================== */
-          <div className="space-y-4">
+          <div className="space-y-4 overflow-y-auto pr-1">
             <div className="text-center">
               <div className="w-10 h-10 rounded-2xl bg-orange-500/20 text-orange-400 flex items-center justify-center mx-auto mb-2">
                 {authMode === "FORGOT_PASSWORD" || authMode === "RESET_PASSWORD" ? (

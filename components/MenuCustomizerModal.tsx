@@ -84,7 +84,7 @@ export default function MenuCustomizerModal({
             <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
               Choose Mumbai Spice Level
             </label>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               {[
                 { id: "MILD", label: "Mild / Meetha", sub: "Mithi tamarind", icon: "🟢" },
                 { id: "MEDIUM", label: "Mumbai Classic", sub: "Garlic & Green", icon: "🟠" },

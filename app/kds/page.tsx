@@ -27,6 +27,17 @@ export default function KitchenDisplayPage() {
   const [actionNotice, setActionNotice] = useState<string | null>(null);
   const [mobileTab, setMobileTab] = useState<"ALL" | "INCOMING" | "PREPARING" | "READY">("ALL");
 
+  const parseModifiersList = (json: string | null | undefined): string => {
+    if (!json) return "";
+    try {
+      const parsed = typeof json === "string" ? JSON.parse(json) : json;
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed.map((m: any) => m.name || m.title || "").filter(Boolean).join(", ");
+      }
+    } catch {}
+    return "";
+  };
+
   // Poll active orders every 3 seconds
   const fetchOrders = async () => {
     try {
@@ -282,11 +293,9 @@ export default function KitchenDisplayPage() {
                           <span className="font-bold text-white">
                             {item.quantity}x {item.itemTitle}
                           </span>
-                          {item.selectedModifiersJson && (
+                          {parseModifiersList(item.selectedModifiersJson) && (
                             <span className="text-[10px] text-slate-400 ml-2">
-                              {JSON.parse(item.selectedModifiersJson)
-                                .map((m: any) => m.name)
-                                .join(", ")}
+                              {parseModifiersList(item.selectedModifiersJson)}
                             </span>
                           )}
                         </div>
@@ -386,11 +395,9 @@ export default function KitchenDisplayPage() {
                           <span className="font-bold text-white">
                             {item.quantity}x {item.itemTitle}
                           </span>
-                          {item.selectedModifiersJson && (
+                          {parseModifiersList(item.selectedModifiersJson) && (
                             <span className="text-[10px] text-orange-300 ml-2">
-                              {JSON.parse(item.selectedModifiersJson)
-                                .map((m: any) => m.name)
-                                .join(", ")}
+                              {parseModifiersList(item.selectedModifiersJson)}
                             </span>
                           )}
                         </div>

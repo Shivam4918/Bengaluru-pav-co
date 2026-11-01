@@ -1275,7 +1275,7 @@ export default function AdminDashboardPage() {
                           </span>
                         </td>
                         <td className="p-3.5 max-w-xs truncate text-slate-300">
-                          {o.items?.map((it: any) => `${it.quantity}x ${it.name}`).join(", ") || "—"}
+                          {o.items?.map((it: any) => `${it.quantity}x ${it.itemTitle || it.name || "Item"}`).join(", ") || "—"}
                         </td>
                         <td className="p-3.5 font-black text-white">
                           ₹{o.totalAmount.toFixed(2)}

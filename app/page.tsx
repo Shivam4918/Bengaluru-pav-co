@@ -54,8 +54,7 @@ function StorefrontContent() {
     async function loadStorefrontData() {
       try {
         setLoading(true);
-        const [realtimeRes, storeRes, menuRes] = await Promise.all([
-          fetch("/api/realtime"),
+        const [storeRes, menuRes] = await Promise.all([
           fetch("/api/store"),
           fetch("/api/menu"),
         ]);

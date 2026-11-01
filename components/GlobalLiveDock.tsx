@@ -59,6 +59,10 @@ export default function GlobalLiveDock() {
               const oData = await oRes.json();
               if (isMounted && oData.order) {
                 setMyRecentOrder(oData.order);
+                // Once completed or cancelled, clear id to avoid unnecessary continuous polling
+                if (oData.order.status === "COMPLETED" || oData.order.status === "CANCELLED") {
+                  localStorage.removeItem("mpc_last_order_id");
+                }
               }
             }
           } catch {}
