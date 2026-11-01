@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { orderStatusTransitionSchema } from "@/lib/validations";
 import { processOrderRecipeBOM } from "@/lib/bom-engine";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }

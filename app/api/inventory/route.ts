@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { rawMaterialSchema, restockSchema, sanitizeInput } from "@/lib/validations";
 import { verifyAuthToken, AUTH_COOKIE_NAME } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 // Helper: Require Admin Authorization for modification
 async function requireAdmin(req: NextRequest) {
   const token = req.cookies.get(AUTH_COOKIE_NAME)?.value;

@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { verifyAuthToken, AUTH_COOKIE_NAME } from "@/lib/auth";
 import { updateProfileSchema, sanitizeInput, normalizeIndianPhone } from "@/lib/validations";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
     const token = req.cookies.get(AUTH_COOKIE_NAME)?.value;

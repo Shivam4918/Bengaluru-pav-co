@@ -8,6 +8,8 @@ import { processOrderRecipeBOM } from "@/lib/bom-engine";
 import { verifyAuthToken, AUTH_COOKIE_NAME } from "@/lib/auth";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   try {
     // 0. IP Rate Limiting (max 15 orders per IP per 5 minutes to prevent spam bots)

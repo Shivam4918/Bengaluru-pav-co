@@ -4,6 +4,8 @@ import { verifyAuthToken, AUTH_COOKIE_NAME } from "@/lib/auth";
 import bcrypt from "bcryptjs";
 import { createStaffSchema, updateStaffSchema, sanitizeInput } from "@/lib/validations";
 
+export const dynamic = "force-dynamic";
+
 // Helper: Require Admin Authorization
 async function requireAdmin(req: NextRequest) {
   const token = req.cookies.get(AUTH_COOKIE_NAME)?.value;

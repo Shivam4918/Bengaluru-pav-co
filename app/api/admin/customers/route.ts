@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifyAuthToken, AUTH_COOKIE_NAME } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 // Helper: Require Admin
 async function requireAdmin(req: NextRequest) {
   const token = req.cookies.get(AUTH_COOKIE_NAME)?.value;
