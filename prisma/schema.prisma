@@ -1,0 +1,267 @@
+// Mumbai Pav Co. - Enterprise Grade Database Schema
+// Optimized for high-throughput ordering, real-time KDS, recipe BOM, and audit logging.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// User & Role Access Control
+model User {
+  id            String      @id @default(cuid())
+  name          String
+  email         String      @unique
+  passwordHash  String
+  phone         String?     @unique
+  role          String      @default("CUSTOMER") // CUSTOMER | KITCHEN_STAFF | CASHIER | ADMIN | RIDER
+  loyaltyPoints Int         @default(0)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  addresses     Address[]
+  orders        Order[]
+  auditLogs     AuditLog[]
+
+  @@index([email])
+  @@index([phone])
+  @@index([role])
+}
+
+// Customer Delivery Addresses (Bengaluru Geofencing)
+model Address {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  addressLine  String
+  landmark     String?
+  pincode      String   // Bengaluru pin (e.g., 560034)
+  latitude     Float?
+  longitude    Float?
+  isDefault    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+  @@index([pincode])
+}
+
+// Menu Categories (Vada Pav, Combos, Beverages, Sides, Desserts)
+model Category {
+  id        String     @id @default(cuid())
+  title     String
+  slug      String     @unique
+  sortOrder Int        @default(0)
+  isActive  Boolean    @default(true)
+  items     MenuItem[]
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+// Menu Items (Artisanal Vada Pav, Cheese Burst, etc.)
+model MenuItem {
+  id           String      @id @default(cuid())
+  categoryId   String
+  category     Category    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  title        String
+  slug         String      @unique
+  description  String
+  price        Float
+  prepTimeMin  Int         @default(5)
+  isVeg        Boolean     @default(true)
+  isAvailable  Boolean     @default(true)
+  isBestseller Boolean     @default(false)
+  spiceLevel   String      @default("MEDIUM") // MILD | MEDIUM | THECHA_HOT
+  imageUrl     String
+
+  modifiers    Modifier[]
+  variants     ItemVariant[]
+  orderItems   OrderItem[]
+  recipeBOMs   RecipeBOM[]
+
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([categoryId])
+  @@index([isAvailable])
+}
+
+// Item Variants (e.g. Single Pav vs Double Pav, Jumbo, Mini Combo)
+model ItemVariant {
+  id         String   @id @default(cuid())
+  menuItemId String
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  name       String   // e.g. "Single Pav", "Double Pav (Jodi)", "Pav Sliders (4 pcs)"
+  price      Float
+  createdAt  DateTime @default(now())
+
+  @@index([menuItemId])
+}
+
+// Add-on Modifiers (Spice level, Extra Butter Pav, Garlic Chutney, Cheese Slice)
+model Modifier {
+  id         String   @id @default(cuid())
+  menuItemId String?
+  menuItem   MenuItem? @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  name       String   // e.g. "Extra Thecha Dry Garlic Chutney", "Amul Cheese Slice", "Extra Butter Grilled Pav"
+  groupName  String   // "CHUTNEY" | "CHEESE" | "PAV" | "SPICE"
+  extraPrice Float    @default(0.0)
+  isRequired Boolean  @default(false)
+
+  @@index([menuItemId])
+  @@index([groupName])
+}
+
+// Core Order Entity
+model Order {
+  id             String      @id @default(cuid())
+  orderNumber    String      @unique // e.g. "MPC-20261021-0042"
+  tokenNo        Int         // Digital token number for buzzer & kitchen ticket e.g. 101, 102
+  orderType      String      @default("TAKEAWAY") // TAKEAWAY | DINE_IN | DELIVERY
+  status         String      @default("CONFIRMED") // PENDING_PAYMENT | CONFIRMED | PREPARING | READY_FOR_PICKUP | OUT_FOR_DELIVERY | COMPLETED | CANCELLED
+  paymentStatus  String      @default("PENDING") // PENDING | PAID | FAILED | REFUNDED
+  paymentMethod  String      @default("RAZORPAY_UPI") // RAZORPAY_UPI | RAZORPAY_CARD | CASH_ON_DELIVERY | COUNTER_CASH | COUNTER_UPI
+
+  // Monetary Breakdown
+  subtotal       Float
+  gstAmount      Float       // 5% street food composite or standard GST
+  discountAmount Float       @default(0.0)
+  deliveryFee    Float       @default(0.0)
+  totalAmount    Float
+
+  // Fulfillment details
+  tableNo        String?     // For Dine-In QR orders e.g. "T-4"
+  pickupSlot     String?     // For Takeaway slot scheduling e.g. "19:30 - 19:45"
+  deliveryAddress String?    // Snapshot string or JSON
+  deliveryPincode String?
+  customerNotes  String?
+
+  // Customer Contact info snapshot
+  customerName   String
+  customerPhone  String
+  customerEmail  String?
+  userId         String?
+  user           User?       @relation(fields: [userId], references: [id])
+
+  // Idempotency & Concurrency Guard
+  idempotencyKey String?     @unique
+
+  // Timestamps for KDS Tracking
+  prepStartedAt  DateTime?
+  readyAt        DateTime?
+  completedAt    DateTime?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  items          OrderItem[]
+  transactions   Transaction[]
+
+  @@index([status])
+  @@index([paymentStatus])
+  @@index([tokenNo])
+  @@index([orderType])
+  @@index([createdAt])
+}
+
+// Line Items in Order
+model OrderItem {
+  id                    String   @id @default(cuid())
+  orderId               String
+  order                 Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItemId            String
+  menuItem              MenuItem @relation(fields: [menuItemId], references: [id])
+  itemTitle             String
+  unitPrice             Float
+  quantity              Int
+  totalPrice            Float
+  selectedModifiersJson String?  // JSON string containing chosen modifiers and spice levels
+
+  createdAt             DateTime @default(now())
+
+  @@index([orderId])
+  @@index([menuItemId])
+}
+
+// Raw Materials & Kitchen Inventory
+model InventoryItem {
+  id           String      @id @default(cuid())
+  name         String      // Batata (Potatoes), Pav Packets, Besan, Green Chillies, Sunflower Oil, Amul Butter, Garlic
+  category     String      // VEGETABLES | BAKERY | DAIRY | DRY_GROCERY | SPICES
+  stockQty     Float       // Current in-stock quantity
+  unit         String      // KG | PIECES | LITRES | PACKETS
+  thresholdQty Float       // Minimum safety buffer before triggering alert
+  costPerUnit  Float
+  lastRestockedAt DateTime @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  recipeBOMs   RecipeBOM[]
+
+  @@index([category])
+}
+
+// Bill of Materials (BOM) linking Menu Items to Raw Ingredients
+model RecipeBOM {
+  id              String        @id @default(cuid())
+  menuItemId      String
+  menuItem        MenuItem      @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  inventoryItemId String
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+  qtyPerItem      Float         // e.g. 1 (Pav), 0.08 (80g Potato), 0.015 (15g Besan), 0.010 (10g Butter)
+  unit            String        // PIECES | KG | LITRES
+
+  createdAt       DateTime      @default(now())
+
+  @@unique([menuItemId, inventoryItemId])
+  @@index([menuItemId])
+  @@index([inventoryItemId])
+}
+
+// Payment Gateway Transactions (Razorpay / Cashfree)
+model Transaction {
+  id                 String   @id @default(cuid())
+  orderId            String
+  order              Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  paymentGatewayRef  String   // Razorpay payment ID (e.g. "pay_29QQoUBi66xm2Z")
+  orderGatewayRef    String?  // Razorpay order ID (e.g. "order_EKwxwAgItmmXdp")
+  signature          String?  // Cryptographic HMAC SHA-256 signature
+  amount             Float
+  status             String   // INITIATED | SUCCESS | FAILED | REFUNDED
+  gatewayPayloadJson String?  // Raw callback payload for dispute audit
+  createdAt          DateTime @default(now())
+
+  @@index([orderId])
+  @@index([paymentGatewayRef])
+}
+
+// Security Audit & Operational Logs
+model AuditLog {
+  id          String   @id @default(cuid())
+  action      String   // ORDER_CREATED, STATUS_TRANSITION, INVENTORY_DEPLETED, SURGE_TOGGLED, BOM_UPDATED
+  entityType  String   // ORDER, INVENTORY, STORE, PAYMENT
+  entityId    String
+  actorId     String?
+  actorRole   String?
+  actor       User?    @relation(fields: [actorId], references: [id])
+  detailsJson String?
+  createdAt   DateTime @default(now())
+
+  @@index([action])
+  @@index([entityType])
+  @@index([createdAt])
+}
+
+// Operational Store Master Settings
+model StoreSetting {
+  id                  String   @id @default("primary")
+  storeName           String   @default("Mumbai Pav Co. - Koramangala Hub")
+  isStoreOpen         Boolean  @default(true)
+  surgeThrottleActive Boolean  @default(false) // When kitchen queue is overloaded
+  maxActiveOrders     Int      @default(30)
+  avgPrepTimeMin      Int      @default(8)
+  currentTokenSequence Int     @default(100)   // Cyclic token sequence (100 -> 999)
+  bannerNotice        String?  @default("🔥 Live Frying: Hot Batata Vadas prepared every 15 minutes!")
+  updatedAt           DateTime @updatedAt
+}
