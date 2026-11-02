@@ -649,7 +649,7 @@ function StorefrontContent() {
           <div>
             <div className="flex items-center space-x-2 text-white font-black text-base mb-2">
               <span>🌶️</span>
-              <span>MUMBAI PAV CO.</span>
+              <span>BENGALURU PAV CO.</span>
             </div>
             <p className="text-slate-400 leading-relaxed text-[11px]">
               Bengaluru&apos;s First Authentic Artisanal Vada Pav & Pav Street Food Craft Kitchen.
@@ -733,7 +733,7 @@ function StorefrontContent() {
         </div>
 
         <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-slate-900 text-center text-[10px] text-slate-600">
-          © 2026 Mumbai Pav Co. All Rights Reserved. Built with Next.js App Router, Prisma ORM, and Razorpay Payments.
+          © 2026 Bengaluru Pav Co. All Rights Reserved. Built with Next.js App Router, Prisma ORM, and Razorpay Payments.
         </div>
       </footer>
 

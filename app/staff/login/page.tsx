@@ -177,7 +177,7 @@ function StaffLoginContent() {
             Staff & Kitchen Portal
           </h2>
           <p className="text-xs text-slate-400 mt-1">
-            Enterprise role-based authentication for Mumbai Pav Co.
+            Enterprise role-based authentication for Bengaluru Pav Co.
           </p>
         </div>
 

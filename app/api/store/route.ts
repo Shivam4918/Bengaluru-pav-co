@@ -67,7 +67,7 @@ export async function PATCH(req: NextRequest) {
       },
       create: {
         id: "primary",
-        storeName: "Mumbai Pav Co. (Bengaluru Koramangala Hub)",
+        storeName: "Bengaluru Pav Co. (Bengaluru Koramangala Hub)",
         isStoreOpen: body.isStoreOpen ?? true,
         surgeThrottleActive: body.surgeThrottleActive ?? false,
       },

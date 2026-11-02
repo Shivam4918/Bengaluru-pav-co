@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
 
     if (storeSetting && !storeSetting.isStoreOpen) {
       return NextResponse.json(
-        { error: "Mumbai Pav Co. is currently closed. Kitchen opens tomorrow at 11:00 AM." },
+        { error: "Bengaluru Pav Co. is currently closed. Kitchen opens tomorrow at 11:00 AM." },
         { status: 403 }
       );
     }

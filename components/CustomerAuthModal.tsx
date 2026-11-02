@@ -589,7 +589,7 @@ export default function CustomerAuthModal({
                               {order.items.map((i: any) => `${i.quantity}x ${i.itemTitle}`).join(", ")}
                             </p>
                           ) : (
-                            <p className="text-slate-500">Mumbai Pav Co. Combo</p>
+                            <p className="text-slate-500">Bengaluru Pav Co. Combo</p>
                           )}
                         </div>
                         <div className="flex items-center justify-between pt-1 border-t border-slate-800/80">
@@ -706,7 +706,7 @@ export default function CustomerAuthModal({
               </div>
               <h3 className="text-lg font-bold text-white">
                 {authMode === "REGISTER" && "Create Customer Account"}
-                {authMode === "SIGN_IN" && "Sign In to Mumbai Pav Co."}
+                {authMode === "SIGN_IN" && "Sign In to Bengaluru Pav Co."}
                 {authMode === "FORGOT_PASSWORD" && "Forgot Your Password?"}
                 {authMode === "RESET_PASSWORD" && "Reset Your Password"}
               </h3>

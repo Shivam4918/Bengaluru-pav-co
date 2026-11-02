@@ -1,6 +1,6 @@
-# Mumbai Pav Co. — Production Cloud Deployment Guide
+# Bengaluru Pav Co. — Production Cloud Deployment Guide
 
-This document contains end-to-end technical specifications, environment variable checklists, and step-by-step procedures to deploy **Mumbai Pav Co.** to free cloud hosting infrastructure.
+This document contains end-to-end technical specifications, environment variable checklists, and step-by-step procedures to deploy **Bengaluru Pav Co.** to free cloud hosting infrastructure.
 
 ---
 
@@ -29,7 +29,7 @@ Set these in the hosting dashboard (e.g., **Vercel Project Settings > Environmen
 | `AUTH_SECRET` | **Yes** | 256-bit secret for signing HTTP-only JWT cookies | Random 64-character hexadecimal or base64 string |
 | `NODE_ENV` | **Yes** | Runtime environment flag | `production` |
 | `NEXT_PUBLIC_APP_URL` | **Yes** | Canonical public URL of your deployed site | `https://your-project.vercel.app` or custom domain |
-| `NEXT_PUBLIC_STORE_NAME` | **Yes** | Display name for your store | `Mumbai Pav Co.` |
+| `NEXT_PUBLIC_STORE_NAME` | **Yes** | Display name for your store | `Bengaluru Pav Co.` |
 | `NEXT_PUBLIC_STORE_CITY` | **Yes** | Operational base city | `Bengaluru` |
 | `NEXT_PUBLIC_STORE_PINCODE`| **Yes** | Store physical hub pin code | `560034` |
 | `NEXT_PUBLIC_RAZORPAY_KEY_ID` | Optional (defaults to test) | Razorpay public key for checkout | `rzp_live_...` (or leave default for test simulation) |
@@ -86,7 +86,7 @@ Before the first deployment build, prepare the cloud database with your schema a
    - `DATABASE_URL`: *(Your Neon PostgreSQL pooled connection string)*
    - `AUTH_SECRET`: *(A secure random string, e.g. generated via `openssl rand -hex 32`)*
    - `NEXT_PUBLIC_APP_URL`: *(Your deployment URL, e.g. `https://mumbai-pav-co.vercel.app`)*
-   - `NEXT_PUBLIC_STORE_NAME`: `Mumbai Pav Co.`
+   - `NEXT_PUBLIC_STORE_NAME`: `Bengaluru Pav Co.`
    - `NEXT_PUBLIC_STORE_CITY`: `Bengaluru`
    - `NEXT_PUBLIC_STORE_PINCODE`: `560034`
 5. Click **Deploy**. Vercel will clone the repository, generate the Prisma query engine, compile the Next.js App Router routes, and assign a production URL with automatic free SSL.

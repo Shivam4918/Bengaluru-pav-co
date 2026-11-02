@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
 
     const response = NextResponse.json({
       success: true,
-      message: "🎉 Welcome to Mumbai Pav Co.! 50 bonus loyalty points added.",
+      message: "🎉 Welcome to Bengaluru Pav Co.! 50 bonus loyalty points added.",
       user: {
         id: user.id,
         name: user.name,

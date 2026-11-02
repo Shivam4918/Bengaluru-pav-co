@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("🌱 Seeding Mumbai Pav Co. production database...");
+  console.log("🌱 Seeding Bengaluru Pav Co. production database...");
 
   // Clear existing items to allow clean re-seed
   await prisma.recipeBOM.deleteMany();
@@ -23,7 +23,7 @@ async function main() {
   await prisma.storeSetting.create({
     data: {
       id: "primary",
-      storeName: "Mumbai Pav Co. (Bengaluru Koramangala Hub)",
+      storeName: "Bengaluru Pav Co. (Bengaluru Koramangala Hub)",
       isStoreOpen: true,
       surgeThrottleActive: false,
       maxActiveOrders: 35,

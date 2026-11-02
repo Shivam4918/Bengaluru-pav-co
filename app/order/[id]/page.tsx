@@ -391,7 +391,7 @@ export default function OrderTrackingPage() {
         {/* Need Help / Contact */}
         <div className="p-4 bg-slate-900/50 border border-slate-800/80 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-slate-400">
           <div>
-            <div className="font-semibold text-slate-200">Mumbai Pav Co. Koramangala Hub</div>
+            <div className="font-semibold text-slate-200">Bengaluru Pav Co. Koramangala Hub</div>
             <div className="text-[11px]">Questions about your order? Call our fry counter at +91 84694 28342.</div>
           </div>
           <div className="w-full sm:w-auto flex flex-wrap items-center gap-2">
@@ -405,7 +405,7 @@ export default function OrderTrackingPage() {
             </a>
             <a
               href={`https://wa.me/918469428342?text=${encodeURIComponent(
-                `Hi Mumbai Pav Co, I have a query about my order #${order.tokenNo || order.orderNumber || ''}`
+                `Hi Bengaluru Pav Co, I have a query about my order #${order.tokenNo || order.orderNumber || ''}`
               )}`}
               target="_blank"
               rel="noopener noreferrer"

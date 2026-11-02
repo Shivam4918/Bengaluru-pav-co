@@ -10,12 +10,12 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Mumbai Pav Co. | Authentic Street-Food Kitchen (Bengaluru)",
+  title: "Bengaluru Pav Co. | Authentic Street-Food Kitchen (Bengaluru)",
   description:
     "Artisanal Vada Pav, Cheese Burst Pav, Misal Pav, and Kadak Masala Cutting Chai in Bengaluru. Real-time kitchen tracking & live token buzzer.",
   keywords: [
     "Vada Pav Bengaluru",
-    "Mumbai Pav Co",
+    "Bengaluru Pav Co",
     "Koramangala Street Food",
     "Authentic Vada Pav",
     "Cutting Chai",

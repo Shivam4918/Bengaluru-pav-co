@@ -452,7 +452,7 @@ export default function CounterPOSPage() {
       {recentOrder && (
         <div id="thermal-receipt" className="hidden print:block">
           <div className="text-center border-b pb-2 mb-2">
-            <h2 className="text-lg font-bold">MUMBAI PAV CO.</h2>
+            <h2 className="text-lg font-bold">BENGALURU PAV CO.</h2>
             <p>Bengaluru Koramangala Hub</p>
             <p>GSTIN: 29AABCU9603R1ZM</p>
             <p>--------------------------------</p>

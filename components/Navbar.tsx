@@ -67,7 +67,7 @@ export default function Navbar({
               <div className="min-w-0">
                 <div className="flex items-center space-x-1.5">
                   <span className="font-black text-sm sm:text-lg md:text-xl tracking-tight text-white truncate">
-                    MUMBAI <span className="text-orange-500">PAV CO.</span>
+                    BENGALURU <span className="text-orange-500">PAV CO.</span>
                   </span>
                   <span className="hidden lg:inline-block px-1.5 py-0.5 text-[9px] font-bold bg-orange-500/15 text-orange-400 border border-orange-500/30 rounded-full flex-shrink-0">
                     Koramangala Hub

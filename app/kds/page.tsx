@@ -495,7 +495,7 @@ export default function KitchenDisplayPage() {
       {printingOrder && (
         <div id="thermal-receipt" className="hidden print:block">
           <div className="text-center border-b pb-2 mb-2">
-            <h2 className="text-base font-bold">MUMBAI PAV CO. (KDS KOT)</h2>
+            <h2 className="text-base font-bold">BENGALURU PAV CO. (KDS KOT)</h2>
             <p>Flagship: Koramangala 5th Block, BLR</p>
             <p>================================</p>
             <p className="text-lg font-bold">TOKEN #{printingOrder.tokenNo}</p>

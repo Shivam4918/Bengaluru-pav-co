@@ -1,4 +1,4 @@
-// Mumbai Pav Co. - Enterprise Grade Database Schema
+// Bengaluru Pav Co. - Enterprise Grade Database Schema
 // Optimized for high-throughput ordering, real-time KDS, recipe BOM, and audit logging.
 
 generator client {
@@ -256,7 +256,7 @@ model AuditLog {
 // Operational Store Master Settings
 model StoreSetting {
   id                  String   @id @default("primary")
-  storeName           String   @default("Mumbai Pav Co. - Koramangala Hub")
+  storeName           String   @default("Bengaluru Pav Co. - Koramangala Hub")
   isStoreOpen         Boolean  @default(true)
   surgeThrottleActive Boolean  @default(false) // When kitchen queue is overloaded
   maxActiveOrders     Int      @default(30)

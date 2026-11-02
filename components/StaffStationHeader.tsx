@@ -63,7 +63,7 @@ export default function StaffStationHeader({
             <div>
               <div className="flex items-center space-x-2">
                 <span className="font-black text-sm sm:text-base text-white">
-                  MUMBAI PAV CO.
+                  BENGALURU PAV CO.
                 </span>
                 <span className="px-2 py-0.5 rounded-full bg-orange-500/15 text-orange-400 border border-orange-500/30 text-[10px] font-black uppercase tracking-wider">
                   {badgeLabel}
